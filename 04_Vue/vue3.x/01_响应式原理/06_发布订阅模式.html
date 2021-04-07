@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布订阅模式</title>
+</head>
+
+<body>
+  <div id="app">
+    发布订阅模式
+  </div>
+
+  <script>
+    // 事件触发器
+    class EventEmitter {
+      constructor() {
+        // {'click':[fn1, fn2], 'change'=[fn1,fn2]}
+        this.subs = {} // 用于存储事件
+      }
+
+      // 注册事件
+      $on(eventType, handler) {
+        this.subs[eventType] = this.subs[eventType] || []
+        this.subs[eventType].push(handler)
+      }
+
+      // 触发事件
+      $emit(eventType) {
+        if (this.subs[eventType]) {
+          this.subs[eventType].forEach(fn => {
+            fn()
+          });
+        }
+      }
+    }
+
+    // 测试
+    let vm = new EventEmitter()
+
+    // 订阅事件
+    vm.$on('change', () => {
+      console.log('测试1');
+    })
+
+    vm.$on('change', () => {
+      console.log('测试2');
+    })
+
+    // 触发事件
+    vm.$emit('change')
+
+  </script>
+</body>
+
+</html>
